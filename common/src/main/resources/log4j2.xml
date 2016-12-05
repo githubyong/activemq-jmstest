@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="info">
+<Configuration status="error">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="[jmstest]%d{MM-dd-yyyy HH:mm:ss.SSS} %l [%t] %-5level - %msg%n"/>
@@ -21,5 +21,8 @@
             <AppenderRef ref="Console"/>
             <AppenderRef ref="FileAsync"/>
         </Root>
+        <Logger name="org.apache.activemq" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
     </Loggers>
 </Configuration>

@@ -11,7 +11,7 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
-@Service("msgReceiveListener")
+@Service
 public class MsgReceiveListener implements MessageListener {
 
     private static final Logger logger = LogManager.getLogger(MsgReceiveListener.class);

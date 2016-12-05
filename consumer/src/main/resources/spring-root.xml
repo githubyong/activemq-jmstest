@@ -4,6 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="SpringUtils" class="cn.yong.jmstest.utils.SpringUtils" scope="singleton"/>
 
-    <import resource="classpath:spring-beans.xml"/>
-    <import resource="classpath:spring-jms.xml"/>
+    <import resource="classpath:spring-beans-consumer.xml"/>
+    <import resource="classpath:spring-jms-consumer.xml"/>
 </beans>

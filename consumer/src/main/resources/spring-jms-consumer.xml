@@ -4,23 +4,24 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="connectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
+  <!--  <bean id="connectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
           destroy-method="stop">
         <property name="connectionFactory">
+            &lt;!&ndash;<bean class="org.apache.activemq.ActiveMQConnectionFactory">&ndash;&gt;
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <property name="brokerURL" value="${jms.url}"/>
+            </bean>
+        </property>
+    </bean>-->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="reconnectOnException" value="true"/>
+        <property name="targetConnectionFactory">
             <bean class="org.apache.activemq.ActiveMQConnectionFactory">
                 <property name="brokerURL" value="${jms.url}"/>
             </bean>
         </property>
     </bean>
 
-    <!-- [sms] jms proxy ,to build jms connection -->
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="receiveTimeout">
-            <value>10000</value>
-        </property>
-        <property name="defaultDestination" ref="dataQueue"/>
-    </bean>
 
     <!-- aqDataDest quene -->
     <bean id="dataQueue" class="org.apache.activemq.command.ActiveMQQueue">
@@ -29,6 +30,12 @@
 
     <!-- listener-->
     <bean class="org.springframework.jms.listener.SimpleMessageListenerContainer" lazy-init="true">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="dataQueue"/>
+        <property name="messageListener" ref="msgReceiveListener"/>
+    </bean>
+
+    <bean id="testMsg" class="org.springframework.jms.listener.SimpleMessageListenerContainer" lazy-init="true">
         <property name="connectionFactory" ref="connectionFactory"/>
         <property name="destination" ref="dataQueue"/>
         <property name="messageListener" ref="msgReceiveListener"/>
